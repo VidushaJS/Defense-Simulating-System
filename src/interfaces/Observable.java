@@ -10,4 +10,5 @@ package interfaces;
  */
 public interface Observable {
     
+    void informController(String msg);
 }

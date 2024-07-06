@@ -4,10 +4,27 @@
  */
 package main;
 
+import JFrames.HelicopterWindow;
+import JFrames.MainControllerWindow;
+import JFrames.SubmarineWindow;
+import JFrames.TankWindow;
+
 /**
  *
  * @author Vidusha
  */
 public class Starter {
+    
+    public static void main(String[] args) {
+        MainControllerWindow defenceController = new MainControllerWindow();
+        HelicopterWindow helicopter = new HelicopterWindow(defenceController, 4, 100);
+        SubmarineWindow submarine = new SubmarineWindow(defenceController, 70, 150);
+        TankWindow tank = new TankWindow(defenceController, 4, 200);
+        defenceController.addDefenceUnit(helicopter);
+        defenceController.addDefenceUnit(submarine);
+        defenceController.addDefenceUnit(tank);
+        
+    }
+    
     
 }

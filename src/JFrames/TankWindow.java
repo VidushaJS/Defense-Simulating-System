@@ -4,17 +4,34 @@
  */
 package JFrames;
 
+import classes.SuperDefence;
+import interfaces.Observable;
+import interfaces.Observer;
+import java.awt.Component;
+import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicSpinnerUI;
+
 /**
  *
  * @author Vidusha
  */
-public class TankWindow extends javax.swing.JFrame {
+public class TankWindow extends SuperDefence implements Observer {
 
-    /**
-     * Creates new form Helicopter
-     */
-    public TankWindow() {
+    
+    public TankWindow(Observable mainController, int soldierCount, int ammoCount) {
+        super(mainController, "Tank", soldierCount, ammoCount);
         initComponents();
+        setVisible(true);
+    }
+    
+    
+     @Override
+    public void setAreaClear(boolean isClear) {
+        if(isClear) {
+           lblAreaClear.setText("Area Cleared");
+        } else {
+            lblAreaClear.setText("Area Not Cleared");
+        }
     }
 
     /**
@@ -55,6 +72,10 @@ public class TankWindow extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Ammo Count");
 
+        spinnerSoldierCount.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        SpinnerAmmoCount.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbPosition.setText("Position");
 
@@ -69,10 +90,13 @@ public class TankWindow extends javax.swing.JFrame {
         });
 
         btnShoot.setText("Shoot");
+        btnShoot.setEnabled(false);
 
         btnRadarOp.setText("Radar Operation");
+        btnRadarOp.setEnabled(false);
 
         btnMissileOp.setText("Missile Operation");
+        btnMissileOp.setEnabled(false);
 
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +112,7 @@ public class TankWindow extends javax.swing.JFrame {
         jSlider1.setPaintTicks(true);
 
         btnRotateShoot.setText("Rotate Shooting");
+        btnRotateShoot.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,7 +155,7 @@ public class TankWindow extends javax.swing.JFrame {
                                 .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(40, 40, 40)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,12 +205,20 @@ public class TankWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTypeMessagesActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        // TODO add your handling code here:
+        String text = txtTypeMessages.getText(); 
+        if (!text.equals("")) {
+            String msg = getDefenceName() + " : " + getMsgId()+ " : " + text;
+            getMainController().informController(msg);
+            txtTypeMessages.setText(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please enter a message to send"
+                    , "Alert!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnSendActionPerformed
 
-    /**
+   /**
      * @param args the command line arguments
-     */
+     */ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -276,7 +309,7 @@ public class TankWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TankWindow().setVisible(true);
+                new TankWindow(null, 4, 120).setVisible(true);
             }
         });
     }
@@ -298,4 +331,6 @@ public class TankWindow extends javax.swing.JFrame {
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
     // End of variables declaration//GEN-END:variables
+
+   
 }

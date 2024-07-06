@@ -4,10 +4,17 @@
  */
 package interfaces;
 
+import classes.Strength;
+
 /**
  *
  * @author Vidusha
  */
 public interface Observer {
     
+    void setAreaClear(boolean isClear);
+    
+    //void setPosition(Strength strength);
+    
+    String getDefenceName();
 }
