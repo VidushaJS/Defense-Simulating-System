@@ -16,6 +16,7 @@ public abstract class SuperDefence extends JFrame {
     private Observable mainController;
     private String defenceName;
     private int soldierCount;
+    private int fuelAmount;
     private int ammoCount;
     private int msgId;
 
@@ -24,6 +25,7 @@ public abstract class SuperDefence extends JFrame {
         this.defenceName = defenceName;
         this.soldierCount = soldierCount;
         this.ammoCount = ammoCount;
+        fuelAmount = 100;
         msgId = 0;
     }    
 
@@ -54,6 +56,8 @@ public abstract class SuperDefence extends JFrame {
     public int getAmmoCount() {
         return ammoCount;
     }
+
+    public abstract int getFuelAmount();
     
     public int getMsgId() {
         return ++msgId;

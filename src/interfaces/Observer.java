@@ -17,4 +17,10 @@ public interface Observer {
     //void setPosition(Strength strength);
     
     String getDefenceName();
+    
+    int getSoldierCount();
+    
+    int getAmmoCount();
+    
+    int getFuelAmount();
 }

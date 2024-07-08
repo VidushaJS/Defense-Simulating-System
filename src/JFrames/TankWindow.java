@@ -7,9 +7,9 @@ package JFrames;
 import classes.SuperDefence;
 import interfaces.Observable;
 import interfaces.Observer;
-import java.awt.Component;
 import javax.swing.JOptionPane;
-import javax.swing.plaf.basic.BasicSpinnerUI;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -21,6 +21,8 @@ public class TankWindow extends SuperDefence implements Observer {
     public TankWindow(Observable mainController, int soldierCount, int ammoCount) {
         super(mainController, "Tank", soldierCount, ammoCount);
         initComponents();
+        ((JSpinner.DefaultEditor)spinnerSoldierCount.getEditor()).getTextField().setEditable(false);
+        ((JSpinner.DefaultEditor)SpinnerAmmoCount.getEditor()).getTextField().setEditable(false);
         setVisible(true);
     }
     
@@ -32,6 +34,11 @@ public class TankWindow extends SuperDefence implements Observer {
         } else {
             lblAreaClear.setText("Area Not Cleared");
         }
+    }
+    
+    @Override
+    public int getFuelAmount() {
+        return sliderFuelAmount.getValue();
     }
 
     /**
@@ -56,7 +63,7 @@ public class TankWindow extends SuperDefence implements Observer {
         btnRadarOp = new javax.swing.JButton();
         btnMissileOp = new javax.swing.JButton();
         btnSend = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
+        sliderFuelAmount = new javax.swing.JSlider();
         btnRotateShoot = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -72,9 +79,19 @@ public class TankWindow extends SuperDefence implements Observer {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Ammo Count");
 
-        spinnerSoldierCount.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spinnerSoldierCount.setModel(new SpinnerNumberModel(getSoldierCount(), 1, getSoldierCount(), 1));
+        spinnerSoldierCount.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerSoldierCountStateChanged(evt);
+            }
+        });
 
-        SpinnerAmmoCount.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        SpinnerAmmoCount.setModel(new SpinnerNumberModel(getAmmoCount(), 0, getAmmoCount(), 1));
+        SpinnerAmmoCount.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                SpinnerAmmoCountStateChanged(evt);
+            }
+        });
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbPosition.setText("Position");
@@ -105,11 +122,12 @@ public class TankWindow extends SuperDefence implements Observer {
             }
         });
 
-        jSlider1.setMajorTickSpacing(20);
-        jSlider1.setMinorTickSpacing(10);
-        jSlider1.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
+        sliderFuelAmount.setMajorTickSpacing(20);
+        sliderFuelAmount.setMinorTickSpacing(10);
+        sliderFuelAmount.setOrientation(javax.swing.JSlider.VERTICAL);
+        sliderFuelAmount.setPaintLabels(true);
+        sliderFuelAmount.setPaintTicks(true);
+        sliderFuelAmount.setValue(100);
 
         btnRotateShoot.setText("Rotate Shooting");
         btnRotateShoot.setEnabled(false);
@@ -154,14 +172,14 @@ public class TankWindow extends SuperDefence implements Observer {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(40, 40, 40)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(sliderFuelAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sliderFuelAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -216,6 +234,15 @@ public class TankWindow extends SuperDefence implements Observer {
         }
     }//GEN-LAST:event_btnSendActionPerformed
 
+    private void spinnerSoldierCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerSoldierCountStateChanged
+        setSoldierCount(Integer.parseInt(spinnerSoldierCount.getValue().toString()));
+    }//GEN-LAST:event_spinnerSoldierCountStateChanged
+
+    private void SpinnerAmmoCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerAmmoCountStateChanged
+        setAmmoCount(Integer.parseInt(SpinnerAmmoCount.getValue().toString()));
+    }//GEN-LAST:event_SpinnerAmmoCountStateChanged
+
+    
    /**
      * @param args the command line arguments
      */ 
@@ -309,7 +336,7 @@ public class TankWindow extends SuperDefence implements Observer {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TankWindow(null, 4, 120).setVisible(true);
+                new TankWindow(null, 4, 12).setVisible(true);
             }
         });
     }
@@ -324,9 +351,9 @@ public class TankWindow extends SuperDefence implements Observer {
     private javax.swing.JCheckBox cbPosition;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider jSlider1;
     private javax.swing.JLabel lblAreaClear;
     private javax.swing.JLabel lblSoldierCount;
+    private javax.swing.JSlider sliderFuelAmount;
     private javax.swing.JSpinner spinnerSoldierCount;
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
