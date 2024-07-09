@@ -14,8 +14,6 @@ public interface Observer {
     
     void setAreaClear(boolean isClear);
     
-    //void setPosition(Strength strength);
-    
     String getDefenceName();
     
     int getSoldierCount();
@@ -23,4 +21,9 @@ public interface Observer {
     int getAmmoCount();
     
     int getFuelAmount();
+    
+    boolean isPositionEnabled();
+    
+    void setStrengthLevel(Strength strength);
+    
 }

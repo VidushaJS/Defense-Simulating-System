@@ -4,6 +4,7 @@
  */
 package JFrames;
 
+import classes.Strength;
 import classes.SuperDefence;
 import interfaces.Observable;
 import interfaces.Observer;
@@ -39,6 +40,52 @@ public class TankWindow extends SuperDefence implements Observer {
     @Override
     public int getFuelAmount() {
         return sliderFuelAmount.getValue();
+    }
+    
+    @Override
+    public boolean isPositionEnabled() {
+        return cbPosition.isSelected();
+    }
+    
+    
+    @Override
+    public void setStrengthLevel(Strength strength) {
+        switch (strength) {
+            case LOW:
+                btnShoot.setEnabled(false);
+                btnRotateShoot.setEnabled(false);
+                btnMissileOp.setEnabled(false);
+                btnRadarOp.setEnabled(false);
+                break;
+                
+            case MEDIUM:
+                btnShoot.setEnabled(true);
+                btnRotateShoot.setEnabled(false);
+                btnMissileOp.setEnabled(false);
+                btnRadarOp.setEnabled(false);
+                break;
+            
+            case HIGH:
+                btnShoot.setEnabled(true);
+                btnRotateShoot.setEnabled(true);
+                btnMissileOp.setEnabled(false);
+                btnRadarOp.setEnabled(false);
+                break;
+   
+            case STRONG:
+                btnShoot.setEnabled(true);
+                btnRotateShoot.setEnabled(true);
+                btnMissileOp.setEnabled(true);
+                btnRadarOp.setEnabled(false);
+                break;
+            
+            case CLOSED:
+                btnShoot.setEnabled(true);
+                btnRotateShoot.setEnabled(true);
+                btnMissileOp.setEnabled(true);
+                btnRadarOp.setEnabled(true);
+                break;
+        }
     }
 
     /**
@@ -150,13 +197,10 @@ public class TankWindow extends SuperDefence implements Observer {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(btnRadarOp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnShoot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(btnMissileOp))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGap(7, 7, 7)
-                                            .addComponent(btnRotateShoot, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(btnMissileOp)
+                                        .addComponent(btnRotateShoot, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(spinnerSoldierCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -200,12 +244,12 @@ public class TankWindow extends SuperDefence implements Observer {
                                 .addGap(40, 40, 40)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnShoot)
-                                    .addComponent(btnMissileOp))
+                                    .addComponent(btnRotateShoot))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnRadarOp)
                                     .addComponent(cbPosition)
-                                    .addComponent(btnRotateShoot))))
+                                    .addComponent(btnMissileOp))))
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -358,6 +402,8 @@ public class TankWindow extends SuperDefence implements Observer {
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
     // End of variables declaration//GEN-END:variables
+
+    
 
    
 }

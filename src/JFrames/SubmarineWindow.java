@@ -4,6 +4,7 @@
  */
 package JFrames;
 
+import classes.Strength;
 import classes.SuperDefence;
 import interfaces.Observable;
 import interfaces.Observer;
@@ -42,10 +43,56 @@ public class SubmarineWindow extends SuperDefence implements Observer {
         return sliderFuel.getValue();
     }
     
+    
+    @Override
+    public boolean isPositionEnabled() {
+        return cbPosition.isSelected();
+    }
+    
     public int getOxigenAmount() {
         return oxigenAmount;
     }
     
+    
+    @Override
+    public void setStrengthLevel(Strength strength) {
+        switch (strength) {
+            case LOW:
+                btnShoot.setEnabled(false);
+                btnSonarOp.setEnabled(false);
+                btnTmhkMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+                break;
+                
+            case MEDIUM:
+                btnShoot.setEnabled(true);
+                btnSonarOp.setEnabled(false);
+                btnTmhkMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+                break;
+            
+            case HIGH:
+                btnShoot.setEnabled(true);
+                btnSonarOp.setEnabled(true);
+                btnTmhkMissile.setEnabled(false);
+                btnTridentMissile.setEnabled(false);
+                break;
+   
+            case STRONG:
+                btnShoot.setEnabled(true);
+                btnSonarOp.setEnabled(true);
+                btnTmhkMissile.setEnabled(true);
+                btnTridentMissile.setEnabled(false);
+                break;
+            
+            case CLOSED:
+                btnShoot.setEnabled(true);
+                btnSonarOp.setEnabled(true);
+                btnTmhkMissile.setEnabled(true);
+                btnTridentMissile.setEnabled(true);
+                break;
+        }
+    }
    
 
     @SuppressWarnings("unchecked")
@@ -439,6 +486,8 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
     // End of variables declaration//GEN-END:variables
+
+    
 
     
 }

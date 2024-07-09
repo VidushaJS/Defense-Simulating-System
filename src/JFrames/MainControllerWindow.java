@@ -4,6 +4,7 @@
  */
 package JFrames;
 
+import classes.Strength;
 import interfaces.Observable;
 import interfaces.Observer;
 import java.util.ArrayList;
@@ -124,6 +125,12 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         sliderPosition.setMinorTickSpacing(5);
         sliderPosition.setPaintLabels(true);
         sliderPosition.setPaintTicks(true);
+        sliderPosition.setValue(0);
+        sliderPosition.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sliderPositionStateChanged(evt);
+            }
+        });
 
         ckbxAreaClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ckbxAreaClear.setText("Area Clear");
@@ -239,14 +246,15 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5)
-                            .addComponent(lblSoldierCount)
-                            .addComponent(lblOxigen)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(lblO2Colon)
-                                .addComponent(lblO2Amount)))
+                                .addComponent(lblO2Amount))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addComponent(lblSoldierCount)
+                                .addComponent(lblOxigen)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -269,7 +277,6 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -331,6 +338,31 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                     , "Alert!", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnCollectInfoActionPerformed
+
+    private void sliderPositionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderPositionStateChanged
+        
+        int strengthLevel = sliderPosition.getValue();
+        
+        Strength strength = null;
+        
+        if (strengthLevel>=80) {
+            strength = Strength.CLOSED;
+        } else if (strengthLevel>=60) {
+            strength = Strength.STRONG;
+        } else if (strengthLevel>=40){
+            strength = Strength.HIGH;
+        } else if (strengthLevel>=20) {
+            strength = Strength.MEDIUM;
+        } else {
+            strength = Strength.LOW;
+        }
+        
+        for(Observer defence : defenceUnits) {
+            if (defence.isPositionEnabled()) {
+                defence.setStrengthLevel(strength);
+            }
+        }
+    }//GEN-LAST:event_sliderPositionStateChanged
 
 
     public static void main(String args[]) {

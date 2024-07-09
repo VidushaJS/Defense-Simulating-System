@@ -41,6 +41,48 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     public int getFuelAmount() {
         return sliderFuelAmount.getValue();
     }
+    
+    
+    @Override
+    public boolean isPositionEnabled() {
+        return cbPosition.isSelected();
+    }
+    
+    @Override
+    public void setStrengthLevel(Strength strength) {
+        switch (strength) {
+            case LOW:
+                btnShoot.setEnabled(false);
+                btnMissileOp.setEnabled(false);
+                btnLaserOp.setEnabled(false);
+                break;
+                
+            case MEDIUM:
+                btnShoot.setEnabled(true);
+                btnMissileOp.setEnabled(false);
+                btnLaserOp.setEnabled(false);
+                break;
+            
+            case HIGH:
+                btnShoot.setEnabled(true);
+                btnMissileOp.setEnabled(false);
+                btnLaserOp.setEnabled(false);
+                break;
+   
+            case STRONG:
+                btnShoot.setEnabled(true);
+                btnMissileOp.setEnabled(true);
+                btnLaserOp.setEnabled(false);
+                break;
+            
+            case CLOSED:
+                btnShoot.setEnabled(true);
+                btnMissileOp.setEnabled(true);
+                btnLaserOp.setEnabled(true);
+                break;
+        }
+    }
+
 
 
     @SuppressWarnings("unchecked")
@@ -92,6 +134,11 @@ public class HelicopterWindow extends SuperDefence implements Observer {
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbPosition.setText("Position");
+        cbPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPositionActionPerformed(evt);
+            }
+        });
 
         txtaMessagesDisplay.setColumns(20);
         txtaMessagesDisplay.setRows(5);
@@ -233,6 +280,10 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         setAmmoCount(Integer.parseInt(SpinnerAmmoCount.getValue().toString()));
     }//GEN-LAST:event_SpinnerAmmoCountStateChanged
 
+    private void cbPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPositionActionPerformed
+
+    }//GEN-LAST:event_cbPositionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -316,5 +367,6 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
     // End of variables declaration//GEN-END:variables
+
 
 }
