@@ -22,6 +22,7 @@ public class TankWindow extends SuperDefence implements Observer {
     public TankWindow(Observable mainController, int soldierCount, int ammoCount) {
         super(mainController, "Tank", soldierCount, ammoCount);
         initComponents();
+        setLookAndFeel();
         ((JSpinner.DefaultEditor)spinnerSoldierCount.getEditor()).getTextField().setEditable(false);
         ((JSpinner.DefaultEditor)SpinnerAmmoCount.getEditor()).getTextField().setEditable(false);
         setVisible(true);
@@ -42,52 +43,85 @@ public class TankWindow extends SuperDefence implements Observer {
         return sliderFuelAmount.getValue();
     }
     
-    @Override
-    public boolean isPositionEnabled() {
+    private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }
     
     
     @Override
     public void setStrengthLevel(Strength strength) {
-        switch (strength) {
-            case LOW:
-                btnShoot.setEnabled(false);
-                btnRotateShoot.setEnabled(false);
-                btnMissileOp.setEnabled(false);
-                btnRadarOp.setEnabled(false);
-                break;
-                
-            case MEDIUM:
-                btnShoot.setEnabled(true);
-                btnRotateShoot.setEnabled(false);
-                btnMissileOp.setEnabled(false);
-                btnRadarOp.setEnabled(false);
-                break;
-            
-            case HIGH:
-                btnShoot.setEnabled(true);
-                btnRotateShoot.setEnabled(true);
-                btnMissileOp.setEnabled(false);
-                btnRadarOp.setEnabled(false);
-                break;
+        
+        setStrength(strength);
+        
+        if (isPositionEnabled()) {
+            activateWeapons();
+        }
    
-            case STRONG:
-                btnShoot.setEnabled(true);
-                btnRotateShoot.setEnabled(true);
-                btnMissileOp.setEnabled(true);
-                btnRadarOp.setEnabled(false);
-                break;
-            
-            case CLOSED:
-                btnShoot.setEnabled(true);
-                btnRotateShoot.setEnabled(true);
-                btnMissileOp.setEnabled(true);
-                btnRadarOp.setEnabled(true);
-                break;
+    }
+    
+    
+    private void activateWeapons() {
+       
+        Strength strength = getStrength();
+        
+        switch (strength) {
+                case LOW:
+                    btnShoot.setEnabled(false);
+                    btnRotateShoot.setEnabled(false);
+                    btnRadarOp.setEnabled(false);
+                    btnMissileOp.setEnabled(false);
+                    break;
+
+                case MEDIUM:
+                    btnShoot.setEnabled(true);
+                    btnRotateShoot.setEnabled(false);
+                    btnRadarOp.setEnabled(false);
+                    btnMissileOp.setEnabled(false);
+                    break;
+
+                case HIGH:
+                    btnShoot.setEnabled(true);
+                    btnRotateShoot.setEnabled(true);
+                    btnRadarOp.setEnabled(false);
+                    btnMissileOp.setEnabled(false);
+                    break;
+
+                case STRONG:
+                    btnShoot.setEnabled(true);
+                    btnRotateShoot.setEnabled(true);
+                    btnRadarOp.setEnabled(true);
+                    btnMissileOp.setEnabled(false);
+                    break;
+
+                case CLOSED:
+                    btnShoot.setEnabled(true);
+                    btnRotateShoot.setEnabled(true);
+                    btnRadarOp.setEnabled(true);
+                    btnMissileOp.setEnabled(true);
+                    break;
+            }
+    }
+    
+    
+    private void setLookAndFeel() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,6 +176,11 @@ public class TankWindow extends SuperDefence implements Observer {
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbPosition.setText("Position");
+        cbPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPositionActionPerformed(evt);
+            }
+        });
 
         txtaMessagesDisplay.setColumns(20);
         txtaMessagesDisplay.setRows(5);
@@ -285,6 +324,19 @@ public class TankWindow extends SuperDefence implements Observer {
     private void SpinnerAmmoCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerAmmoCountStateChanged
         setAmmoCount(Integer.parseInt(SpinnerAmmoCount.getValue().toString()));
     }//GEN-LAST:event_SpinnerAmmoCountStateChanged
+
+    private void cbPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPositionActionPerformed
+        
+        if (isPositionEnabled()) {
+            activateWeapons();
+        } else {
+            btnShoot.setEnabled(false);
+            btnRotateShoot.setEnabled(false);
+            btnRadarOp.setEnabled(false);
+            btnMissileOp.setEnabled(false);        
+        }
+        
+    }//GEN-LAST:event_cbPositionActionPerformed
 
     
    /**

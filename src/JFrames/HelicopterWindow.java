@@ -21,6 +21,7 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     public HelicopterWindow(Observable mainController, int soldierCount, int ammoCount) {
         super(mainController, "Helicopter", soldierCount, ammoCount);
         initComponents();
+        setLookAndFeel();
         ((JSpinner.DefaultEditor)spinnerSoldierCount.getEditor()).getTextField().setEditable(false);
         ((JSpinner.DefaultEditor)SpinnerAmmoCount.getEditor()).getTextField().setEditable(false);
         setVisible(true);
@@ -43,46 +44,76 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     }
     
     
-    @Override
-    public boolean isPositionEnabled() {
+    private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }
     
     @Override
     public void setStrengthLevel(Strength strength) {
-        switch (strength) {
-            case LOW:
-                btnShoot.setEnabled(false);
-                btnMissileOp.setEnabled(false);
-                btnLaserOp.setEnabled(false);
-                break;
-                
-            case MEDIUM:
-                btnShoot.setEnabled(true);
-                btnMissileOp.setEnabled(false);
-                btnLaserOp.setEnabled(false);
-                break;
-            
-            case HIGH:
-                btnShoot.setEnabled(true);
-                btnMissileOp.setEnabled(false);
-                btnLaserOp.setEnabled(false);
-                break;
-   
-            case STRONG:
-                btnShoot.setEnabled(true);
-                btnMissileOp.setEnabled(true);
-                btnLaserOp.setEnabled(false);
-                break;
-            
-            case CLOSED:
-                btnShoot.setEnabled(true);
-                btnMissileOp.setEnabled(true);
-                btnLaserOp.setEnabled(true);
-                break;
+        
+        setStrength(strength);
+        if (isPositionEnabled()) {
+            activateWeapons();
         }
+       
     }
 
+    private void activateWeapons() {
+       
+        Strength strength = getStrength();
+        
+        switch (strength) {
+                case LOW:
+                    btnShoot.setEnabled(false);
+                    btnMissileOp.setEnabled(false);
+                    btnLaserOp.setEnabled(false);
+                    break;
+
+                case MEDIUM:
+                    btnShoot.setEnabled(true);
+                    btnMissileOp.setEnabled(false);
+                    btnLaserOp.setEnabled(false);
+                    break;
+
+                case HIGH:
+                    btnShoot.setEnabled(true);
+                    btnMissileOp.setEnabled(false);
+                    btnLaserOp.setEnabled(false);
+                    break;
+
+                case STRONG:
+                    btnShoot.setEnabled(true);
+                    btnMissileOp.setEnabled(true);
+                    btnLaserOp.setEnabled(false);
+                    break;
+
+                case CLOSED:
+                    btnShoot.setEnabled(true);
+                    btnMissileOp.setEnabled(true);
+                    btnLaserOp.setEnabled(true);
+                    break;
+            }
+    }
+    
+    
+    private void setLookAndFeel() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
 
 
     @SuppressWarnings("unchecked")
@@ -133,6 +164,7 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         });
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbPosition.setSelected(true);
         cbPosition.setText("Position");
         cbPosition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,7 +313,13 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     }//GEN-LAST:event_SpinnerAmmoCountStateChanged
 
     private void cbPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPositionActionPerformed
-
+        if (isPositionEnabled()) {
+            activateWeapons();
+        } else {
+            btnShoot.setEnabled(false);
+            btnMissileOp.setEnabled(false);
+            btnLaserOp.setEnabled(false);
+        }
     }//GEN-LAST:event_cbPositionActionPerformed
 
     /**

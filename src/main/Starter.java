@@ -8,6 +8,7 @@ import JFrames.HelicopterWindow;
 import JFrames.MainControllerWindow;
 import JFrames.SubmarineWindow;
 import JFrames.TankWindow;
+import classes.Strength;
 
 /**
  *
@@ -16,7 +17,7 @@ import JFrames.TankWindow;
 public class Starter {
     
     public static void main(String[] args) {
-        MainControllerWindow defenceController = new MainControllerWindow();
+        MainControllerWindow defenceController = new MainControllerWindow(Strength.STRONG);
         HelicopterWindow helicopter = new HelicopterWindow(defenceController, 4, 100);
         SubmarineWindow submarine = new SubmarineWindow(defenceController, 70, 150);
         TankWindow tank = new TankWindow(defenceController, 4, 200);

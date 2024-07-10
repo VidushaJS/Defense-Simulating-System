@@ -17,18 +17,53 @@ import javax.swing.JOptionPane;
 public class MainControllerWindow extends javax.swing.JFrame implements Observable {
     
     private ArrayList<Observer> defenceUnits = new ArrayList<>();
+    private Strength initialStrength;
 
-    public MainControllerWindow() {
+    public MainControllerWindow(Strength initialStrength) {
         initComponents();
+        setLookAndFeel();
+        setInitialStrength(initialStrength);
         lblOxigen.setVisible(false);
         lblO2Colon.setVisible(false);
         lblO2Amount.setVisible(false);
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    public void setInitialStrength(Strength initialStrength) {
+        
+        this.initialStrength = initialStrength;
+        
+        switch (initialStrength) {
+            case LOW:
+                sliderPosition.setValue(10);
+                break;
+                
+            case MEDIUM:
+                sliderPosition.setValue(30);
+                break;
+                
+            case HIGH:
+                sliderPosition.setValue(50);
+                break;
+                
+            case STRONG:
+                sliderPosition.setValue(70);
+                break;
+                
+            case CLOSED:
+                sliderPosition.setValue(90);
+                break;
+                
+        }
+    }
+    
     
     public void addDefenceUnit(Observer defenceUnit) {
-        defenceUnits.add(defenceUnit);
+        if (defenceUnit != null) {
+            defenceUnits.add(defenceUnit);
+            defenceUnit.setStrengthLevel(initialStrength);
+        }
     }
     
     @Override
@@ -358,13 +393,31 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         }
         
         for(Observer defence : defenceUnits) {
-            if (defence.isPositionEnabled()) {
-                defence.setStrengthLevel(strength);
-            }
+            //defence.setStrength(strength);
+            defence.setStrengthLevel(strength);
         }
     }//GEN-LAST:event_sliderPositionStateChanged
 
 
+    private void setLookAndFeel() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -392,7 +445,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainControllerWindow().setVisible(true);
+                new MainControllerWindow(Strength.LOW).setVisible(true);
             }
         });
     }

@@ -22,8 +22,8 @@ public interface Observer {
     
     int getFuelAmount();
     
-    boolean isPositionEnabled();
-    
     void setStrengthLevel(Strength strength);
+    
+    void setStrength(Strength strength);
     
 }

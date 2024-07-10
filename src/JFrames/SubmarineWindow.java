@@ -22,8 +22,9 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     
     public SubmarineWindow(Observable mainController, int soldierCount, int ammoCount) {
         super(mainController, "Submarine",soldierCount, ammoCount);
-        oxigenAmount = 100;
         initComponents();
+        setLookAndFeel();
+        oxigenAmount = 100;
         ((JSpinner.DefaultEditor)spinnerSoldierCount.getEditor()).getTextField().setEditable(false);
         ((JSpinner.DefaultEditor)SpinnerAmmoCount.getEditor()).getTextField().setEditable(false);
         setVisible(true);
@@ -44,8 +45,7 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     }
     
     
-    @Override
-    public boolean isPositionEnabled() {
+    private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }
     
@@ -56,6 +56,20 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     
     @Override
     public void setStrengthLevel(Strength strength) {
+        
+        setStrength(strength);
+        
+        if (isPositionEnabled()) {
+            activateWeapons();
+        }
+        
+    }
+    
+    
+    private void activateWeapons() {
+       
+        Strength strength = getStrength();
+        
         switch (strength) {
             case LOW:
                 btnShoot.setEnabled(false);
@@ -63,34 +77,54 @@ public class SubmarineWindow extends SuperDefence implements Observer {
                 btnTmhkMissile.setEnabled(false);
                 btnTridentMissile.setEnabled(false);
                 break;
-                
+
             case MEDIUM:
                 btnShoot.setEnabled(true);
                 btnSonarOp.setEnabled(false);
                 btnTmhkMissile.setEnabled(false);
                 btnTridentMissile.setEnabled(false);
                 break;
-            
+
             case HIGH:
                 btnShoot.setEnabled(true);
                 btnSonarOp.setEnabled(true);
                 btnTmhkMissile.setEnabled(false);
                 btnTridentMissile.setEnabled(false);
                 break;
-   
+
             case STRONG:
                 btnShoot.setEnabled(true);
                 btnSonarOp.setEnabled(true);
                 btnTmhkMissile.setEnabled(true);
                 btnTridentMissile.setEnabled(false);
                 break;
-            
+
             case CLOSED:
                 btnShoot.setEnabled(true);
                 btnSonarOp.setEnabled(true);
                 btnTmhkMissile.setEnabled(true);
                 btnTridentMissile.setEnabled(true);
                 break;
+        }
+    }
+    
+    
+    private void setLookAndFeel() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainControllerWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
    
@@ -138,6 +172,11 @@ public class SubmarineWindow extends SuperDefence implements Observer {
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbPosition.setText("Position");
+        cbPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPositionActionPerformed(evt);
+            }
+        });
 
         txtaMessagesDisplay.setColumns(20);
         txtaMessagesDisplay.setRows(5);
@@ -305,6 +344,18 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     private void SpinnerAmmoCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerAmmoCountStateChanged
         setAmmoCount(Integer.parseInt(SpinnerAmmoCount.getValue().toString()));
     }//GEN-LAST:event_SpinnerAmmoCountStateChanged
+
+    private void cbPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPositionActionPerformed
+        
+        if (isPositionEnabled()) {
+            activateWeapons();
+        } else {
+            btnShoot.setEnabled(false);
+            btnSonarOp.setEnabled(false);
+            btnTmhkMissile.setEnabled(false);
+            btnTridentMissile.setEnabled(false);
+        }        
+    }//GEN-LAST:event_cbPositionActionPerformed
 
     /**
      * @param args the command line arguments
