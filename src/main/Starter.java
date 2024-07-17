@@ -17,7 +17,7 @@ import classes.Strength;
 public class Starter {
     
     public static void main(String[] args) {
-        MainControllerWindow defenceController = new MainControllerWindow(Strength.STRONG);
+        MainControllerWindow defenceController = new MainControllerWindow(Strength.LOW);
         HelicopterWindow helicopter = new HelicopterWindow(defenceController, 4, 100);
         SubmarineWindow submarine = new SubmarineWindow(defenceController, 70, 150);
         TankWindow tank = new TankWindow(defenceController, 4, 200);

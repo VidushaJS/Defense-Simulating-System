@@ -26,4 +26,6 @@ public interface Observer {
     
     void setStrength(Strength strength);
     
+    void sendMessage(String msg);
+    
 }

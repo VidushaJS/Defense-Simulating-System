@@ -45,6 +45,11 @@ public class SubmarineWindow extends SuperDefence implements Observer {
     }
     
     
+    @Override
+    public void sendMessage(String msg) {
+        txtaMessagesDisplay.append(msg + "\n");
+    }
+    
     private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }

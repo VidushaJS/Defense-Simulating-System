@@ -44,6 +44,12 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     }
     
     
+    @Override
+    public void sendMessage(String msg) {
+        txtaMessagesDisplay.append(msg + "\n");
+    }
+    
+    
     private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }
@@ -164,7 +170,6 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         });
 
         cbPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbPosition.setSelected(true);
         cbPosition.setText("Position");
         cbPosition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,10 +338,12 @@ public class HelicopterWindow extends SuperDefence implements Observer {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+             
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
+            
             }
             //javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.WindowsClassicLookAndFeel");
         } catch (ClassNotFoundException ex) {
@@ -405,6 +412,8 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     private javax.swing.JTextField txtTypeMessages;
     private javax.swing.JTextArea txtaMessagesDisplay;
     // End of variables declaration//GEN-END:variables
+
+    
 
 
 }

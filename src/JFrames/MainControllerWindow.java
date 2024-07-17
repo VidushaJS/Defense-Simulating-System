@@ -93,7 +93,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaMessages = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtTypeMessages = new javax.swing.JTextArea();
         ckbxSendPvt = new javax.swing.JCheckBox();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -180,10 +180,10 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         txtAreaMessages.setRows(5);
         jScrollPane1.setViewportView(txtAreaMessages);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtTypeMessages.setColumns(20);
+        txtTypeMessages.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTypeMessages.setRows(5);
+        jScrollPane2.setViewportView(txtTypeMessages);
 
         ckbxSendPvt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ckbxSendPvt.setText("Send Private");
@@ -195,6 +195,11 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
 
         btnSend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
 
         jTextArea3.setColumns(20);
         jTextArea3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -393,10 +398,55 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         }
         
         for(Observer defence : defenceUnits) {
-            //defence.setStrength(strength);
             defence.setStrengthLevel(strength);
         }
     }//GEN-LAST:event_sliderPositionStateChanged
+
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+       
+        String text = txtTypeMessages.getText(); 
+        
+        if (!text.equals("")) {
+            
+            String msg = "Main Controller" + " : "+ text;
+            
+            if (ckbxSendPvt.isSelected()) {
+                
+                String selectedItem = cbSelectDefence.getSelectedItem().toString();
+        
+                if (!selectedItem.equals("Select Defence")) {
+                    
+                    Observer defence = null;
+                    for(Observer ob : defenceUnits) {
+                        if (ob.getDefenceName().equals(selectedItem)) {
+                            defence = ob;
+                            break;
+                        }
+                    }
+                    
+                    defence.sendMessage(msg);
+                    
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a defence unit to send messages"
+                    , "Alert!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                
+                for (Observer defence : defenceUnits) {
+                    defence.sendMessage(msg);
+                }
+            
+            }
+            txtTypeMessages.setText(null);
+        
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Please enter a message to send"
+                    , "Alert!", JOptionPane.INFORMATION_MESSAGE);
+        
+        }
+    }//GEN-LAST:event_btnSendActionPerformed
 
 
     private void setLookAndFeel() {
@@ -466,7 +516,6 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JLabel lblAmmo;
     private javax.swing.JLabel lblFuel;
@@ -476,6 +525,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
     private javax.swing.JLabel lblSoldierCount;
     private javax.swing.JSlider sliderPosition;
     private javax.swing.JTextArea txtAreaMessages;
+    private javax.swing.JTextArea txtTypeMessages;
     // End of variables declaration//GEN-END:variables
 
     

@@ -43,6 +43,12 @@ public class TankWindow extends SuperDefence implements Observer {
         return sliderFuelAmount.getValue();
     }
     
+    
+    @Override
+    public void sendMessage(String msg) {
+        txtaMessagesDisplay.append(msg + "\n");
+    }
+    
     private boolean isPositionEnabled() {
         return cbPosition.isSelected();
     }
