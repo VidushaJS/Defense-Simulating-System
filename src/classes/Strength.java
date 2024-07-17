@@ -4,9 +4,6 @@
  */
 package classes;
 
-import javax.swing.text.Highlighter;
-import jdk.swing.interop.LightweightContentWrapper;
-
 /**
  *
  * @author Vidusha

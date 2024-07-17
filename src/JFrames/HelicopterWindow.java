@@ -21,8 +21,8 @@ public class HelicopterWindow extends SuperDefence implements Observer {
     
     public HelicopterWindow(Observable mainController, int soldierCount, int ammoCount) {
         super(mainController, "Helicopter", soldierCount, ammoCount);
-        initComponents();
         setLookAndFeel();
+        initComponents();
         ((JSpinner.DefaultEditor)spinnerSoldierCount.getEditor()).getTextField().setEditable(false);
         ((JSpinner.DefaultEditor)SpinnerAmmoCount.getEditor()).getTextField().setEditable(false);
         setVisible(true);
@@ -185,6 +185,7 @@ public class HelicopterWindow extends SuperDefence implements Observer {
             }
         });
 
+        txtaMessagesDisplay.setEditable(false);
         txtaMessagesDisplay.setColumns(20);
         txtaMessagesDisplay.setRows(5);
         jScrollPane1.setViewportView(txtaMessagesDisplay);
@@ -313,6 +314,7 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         if (!text.equals("")) {
             String msg = getDefenceName() + " : " + getMsgId()+ " : " + text;
             getMainController().informController(msg);
+            txtaMessagesDisplay.append(msg + "\n");
             txtTypeMessages.setText(null);
         } else {
             JOptionPane.showMessageDialog(null, "Please enter a message to send"
@@ -320,14 +322,17 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         }
     }//GEN-LAST:event_btnSendActionPerformed
 
+    
     private void spinnerSoldierCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerSoldierCountStateChanged
         setSoldierCount(Integer.parseInt(spinnerSoldierCount.getValue().toString()));
     }//GEN-LAST:event_spinnerSoldierCountStateChanged
 
+    
     private void SpinnerAmmoCountStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_SpinnerAmmoCountStateChanged
         setAmmoCount(Integer.parseInt(SpinnerAmmoCount.getValue().toString()));
     }//GEN-LAST:event_SpinnerAmmoCountStateChanged
 
+    
     private void cbPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPositionActionPerformed
         if (isPositionEnabled()) {
             activateWeapons();
@@ -344,74 +349,6 @@ public class HelicopterWindow extends SuperDefence implements Observer {
         SpinnerAmmoCount.setValue(getAmmoCount());
     }//GEN-LAST:event_btnShootActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-             
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            
-            }
-            //javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.WindowsClassicLookAndFeel");
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HelicopterWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HelicopterWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HelicopterWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HelicopterWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HelicopterWindow(null, 4, 5).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner SpinnerAmmoCount;
