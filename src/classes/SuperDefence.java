@@ -72,4 +72,10 @@ public abstract class SuperDefence extends JFrame {
         return ++msgId;
     }
     
+    public void decreaseAmmoCount() {
+       if(ammoCount != 0) {
+           ammoCount--;
+       }
+    }
+    
 }

@@ -63,6 +63,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         if (defenceUnit != null) {
             defenceUnits.add(defenceUnit);
             defenceUnit.setStrengthLevel(initialStrength);
+            cbSelectDefence.addItem(defenceUnit.getDefenceName());
         }
     }
     
@@ -93,11 +94,11 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaMessages = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtTypeMessages = new javax.swing.JTextArea();
+        txtTypeMessage = new javax.swing.JTextArea();
         ckbxSendPvt = new javax.swing.JCheckBox();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        txtAreaMsgHistory = new javax.swing.JTextArea();
         lblOxigen = new javax.swing.JLabel();
         lblO2Colon = new javax.swing.JLabel();
         lblO2Amount = new javax.swing.JLabel();
@@ -107,16 +108,6 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
 
         cbSelectDefence.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbSelectDefence.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Defence" }));
-        cbSelectDefence.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                cbSelectDefenceMouseEntered(evt);
-            }
-        });
-        cbSelectDefence.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSelectDefenceActionPerformed(evt);
-            }
-        });
 
         btnCollectInfo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCollectInfo.setText("Collect Information");
@@ -180,18 +171,13 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
         txtAreaMessages.setRows(5);
         jScrollPane1.setViewportView(txtAreaMessages);
 
-        txtTypeMessages.setColumns(20);
-        txtTypeMessages.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTypeMessages.setRows(5);
-        jScrollPane2.setViewportView(txtTypeMessages);
+        txtTypeMessage.setColumns(20);
+        txtTypeMessage.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTypeMessage.setRows(5);
+        jScrollPane2.setViewportView(txtTypeMessage);
 
         ckbxSendPvt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ckbxSendPvt.setText("Send Private");
-        ckbxSendPvt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckbxSendPvtActionPerformed(evt);
-            }
-        });
 
         btnSend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSend.setText("Send");
@@ -201,10 +187,10 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
             }
         });
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        txtAreaMsgHistory.setColumns(20);
+        txtAreaMsgHistory.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAreaMsgHistory.setRows(5);
+        jScrollPane3.setViewportView(txtAreaMsgHistory);
 
         lblOxigen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblOxigen.setText("Oxigen (%)");
@@ -223,21 +209,12 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(cbSelectDefence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCollectInfo)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 54, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ckbxAreaClear)
-                                .addGap(85, 85, 85))))
+                        .addComponent(cbSelectDefence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCollectInfo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
+                        .addComponent(ckbxAreaClear)
+                        .addGap(85, 85, 85))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -260,19 +237,21 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblO2Colon, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblO2Amount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblO2Amount, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sliderPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(sliderPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(ckbxSendPvt)
                                 .addGap(47, 47, 47)
                                 .addComponent(btnSend))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
@@ -305,22 +284,25 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7)
                             .addComponent(lblAmmo))
-                        .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnSend)
+                                    .addComponent(ckbxSendPvt)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sliderPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnSend)
-                                .addComponent(ckbxSendPvt))))
+                                .addComponent(sliderPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(99, 99, 99)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -338,23 +320,6 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
             }
         }
     }//GEN-LAST:event_ckbxAreaClearActionPerformed
-
-    private void cbSelectDefenceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbSelectDefenceMouseEntered
-        
-        if (cbSelectDefence.getItemCount() == 1) {
-            for (Observer defenceUnit : defenceUnits) {
-                cbSelectDefence.addItem(defenceUnit.getDefenceName());
-            }
-        }
-    }//GEN-LAST:event_cbSelectDefenceMouseEntered
-
-    private void cbSelectDefenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSelectDefenceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbSelectDefenceActionPerformed
-
-    private void ckbxSendPvtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbxSendPvtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ckbxSendPvtActionPerformed
 
     private void btnCollectInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectInfoActionPerformed
         
@@ -404,7 +369,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
        
-        String text = txtTypeMessages.getText(); 
+        String text = txtTypeMessage.getText(); 
         
         if (!text.equals("")) {
             
@@ -438,7 +403,7 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
                 }
             
             }
-            txtTypeMessages.setText(null);
+            txtTypeMessage.setText(null);
         
         } else {
             
@@ -516,7 +481,6 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JLabel lblAmmo;
     private javax.swing.JLabel lblFuel;
     private javax.swing.JLabel lblO2Amount;
@@ -525,7 +489,8 @@ public class MainControllerWindow extends javax.swing.JFrame implements Observab
     private javax.swing.JLabel lblSoldierCount;
     private javax.swing.JSlider sliderPosition;
     private javax.swing.JTextArea txtAreaMessages;
-    private javax.swing.JTextArea txtTypeMessages;
+    private javax.swing.JTextArea txtAreaMsgHistory;
+    private javax.swing.JTextArea txtTypeMessage;
     // End of variables declaration//GEN-END:variables
 
     
